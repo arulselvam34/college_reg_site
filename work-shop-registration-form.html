@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ID Card Form</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow: scroll;
+    }
+
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .video-container video {
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      height: 100vh;
+    }
+
+    form {
+      width: 40%;
+      padding: 20px;
+      background-color: #222;
+      border-radius: 10px;
+      opacity: 70%;
+    }
+
+    form h3 {
+      text-align: center;
+      color: #ff7575;
+      margin-bottom: 20px;
+    }
+
+    form label {
+      display: block;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    form input[type="text"],
+    form input[type="file"],
+    form select {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #45a049;
+    }
+
+    .id-card-container {
+      width: 40%;
+      padding: 10px;
+    }
+
+    .id-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative; /* Added */
+    }
+
+    .id-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      
+    }
+
+    .id-card p {
+      margin: 5px 0;
+    }
+
+    .id-card button {
+  width: auto;
+  padding: 8px ;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: relative; /* Change from absolute to relative */
+  bottom: -10px; /* Adjusted position */
+  left: 10px; /* Adjusted position */
+}
+
+    .id-card button:hover {
+      background-color: #45a049;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .alert-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      opacity: 85%;
+    }
+
+    .alert-box {
+      width: 500px;
+      height: auto;
+      padding: 35px;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: justify;
+    }
+
+    .alert-box button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      float: right;
+    }
+
+    .alert-box button:hover {
+      background-color: #45a049;
+    }
+
+    .alert-box h2 {
+      color: red;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    .alert-box ol {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="video-container">
+    <video autoplay loop muted>
+      <source src="src/lines_-_4760 (1080p).mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="container">
+    <form id="idCardForm">
+      <h3>Registration Form</h3>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
+      <div class="error-message" id="nameError"></div>
+      <label for="school">School Name:</label>
+      <input type="text" id="school" name="school">
+      <div class="error-message" id="schoolError"></div>
+      <label for="standard">Standard:</label>
+      <input type="text" id="standard" name="standard">
+      <div class="error-message" id="standardError"></div>
+      <label for="eventName">Event Participate:</label>
+      <select id="eventName" name="eventName">
+        <option value="Artificial intelligence (AI) and Machine learning (ML)">Artificial intelligence (AI) and Machine learning (ML)</option>
+        <option value="Dorne">Dorne</option>
+        <option value="Robotices">Robotices</option>
+        <option value="Internet of Things (Iot)">Internet of Things (Iot)</option>
+        <option value="Mobile App">Mobile App</option>
+        <option value="3D printing">3D printing</option>
+      </select>
+      <div class="error-message" id="eventNameError"></div>
+      <label for="projectTitle">Project Title (optional):</label>
+      <input type="text" id="projectTitle" name="projectTitle">
+      <label for="email">Email ID:</label>
+      <input type="text" id="email" name="email">
+      <div class="error-message" id="emailError"></div>
+      <label for="profilePhoto">Profile Photo:</label>
+      <input type="file" id="profilePhoto" name="profilePhoto">
+      <div class="error-message" id="profilePhotoError"></div>
+      <button type="button" id="addButton">Add ID Card</button>
+    </form>
+    <div class="id-card-container" id="idCardContainer">
+      <!-- ID cards will be displayed here -->
+    </div>
+  </div>
+
+  <script>
+    // Function to display popup message with instructions after 1 second delay when the page loads
+    window.onload = function () {
+      setTimeout(function() {
+        var alertContainer = document.createElement('div');
+        alertContainer.classList.add('alert-container');
+
+        var alertBox = document.createElement('div');
+        alertBox.classList.add('alert-box');
+
+        var instructionsHTML = "<h2>General Instructions</h2>";
+        instructionsHTML += "<ol>";
+        instructionsHTML += "<li>Participants should only register for one technical event, one non-technical event, and one workshop.</li>";
+        instructionsHTML += "<li>After hitting the registration button, a soft copy of your ID will be shown.</li>";
+        instructionsHTML += "</ol>";
+
+        alertBox.innerHTML = instructionsHTML;
+
+        var okButton = document.createElement('button');
+        okButton.textContent = "OK";
+        okButton.onclick = function () {
+          alertContainer.style.display = 'none';
+        };
+
+        alertBox.appendChild(okButton);
+        alertContainer.appendChild(alertBox);
+        document.body.appendChild(alertContainer);
+      }, 1000); // 1000 milliseconds = 1 second
+    };
+
+    // Your existing JavaScript code
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("addButton").addEventListener("click", function () {
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(function (el) {
+          el.textContent = '';
+        });
+
+        // Fetching input field values
+        var name = document.getElementById("name").value;
+        var school = document.getElementById("school").value;
+        var standard = document.getElementById("standard").value;
+        var eventName = document.getElementById("eventName").value;
+        var email = document.getElementById("email").value;
+        var profilePhoto = document.getElementById("profilePhoto").files[0];
+
+        var isError = false;
+
+        // Checking if any of the fields are empty
+        if (name === "") {
+          document.getElementById("nameError").textContent = "Please enter your name.";
+          isError = true;
+        }
+        if (school === "") {
+          document.getElementById("schoolError").textContent = "Please enter your school name.";
+          isError = true;
+        }
+        if (standard === "") {
+          document.getElementById("standardError").textContent = "Please enter your standard.";
+          isError = true;
+        }
+        if (eventName === "") {
+          document.getElementById("eventNameError").textContent = "Please select an event.";
+          isError = true;
+        }
+        if (email === "") {
+          document.getElementById("emailError").textContent = "Please enter your email.";
+          isError = true;
+        }
+        if (!profilePhoto) {
+          document.getElementById("profilePhotoError").textContent = "Please upload a profile photo.";
+          isError = true;
+        }
+
+        if (isError) {
+          return;
+        }
+
+        var id = Math.floor(Math.random() * 1000000);
+
+        var idCardHTML = "<div class='id-card'>";
+        idCardHTML += "<img src='" + URL.createObjectURL(profilePhoto) + "' alt='Profile Photo'>";
+        idCardHTML += "<p>ID: " + id + "</p>";
+        idCardHTML += "<p><b>Name:</b> " + name + "</p>";
+        idCardHTML += "<p><b>School:</b> " + school + "</p>";
+        idCardHTML += "<p><b>Standard:</b> " + standard + "</p>";
+        idCardHTML += "<p><b>Event Participate:</b> " + eventName + "</p>";
+        idCardHTML += "<p><b>Email:</b> " + email + "</p>";
+        idCardHTML += "<button onclick='downloadPDF(this)'>Download</button>"; // Added download button
+        idCardHTML += "</div>";
+
+        var container = document.getElementById("idCardContainer");
+        if (container) {
+          container.insertAdjacentHTML('beforeend', idCardHTML);
+        }
+
+        document.getElementById("idCardForm").reset();
+      });
+    });
+
+   // Function to download the ID card as PDF
+function downloadPDF(button) {
+  var idCard = button.parentElement;
+  var idCardContainer = idCard.parentElement;
+  var idCardHTML = idCard.outerHTML;
+
+  // Create a Blob containing the HTML content of the ID card
+  var blob = new Blob([idCardHTML], { type: 'application/pdf' });
+
+  // Create a temporary anchor element
+  var tempLink = document.createElement('a');
+  tempLink.href = URL.createObjectURL(blob);
+  tempLink.download = 'id_card.pdf'; // Set the filename for the downloaded PDF
+
+  // Trigger a click event on the anchor element to initiate the download
+  tempLink.click();
+}
+
+  </script>
+</body>
+
+</html>

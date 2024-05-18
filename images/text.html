@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ID Card Form</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      overflow: scroll;
+    }
+
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .video-container video {
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    form {
+      width: 100%;
+      max-width: 600px; /* Adjust as needed */
+      padding: 20px;
+      background-color: #222;
+      border-radius: 10px;
+      opacity: 95%;
+    }
+
+    form h3 {
+      text-align: center;
+      color: #ff7575;
+      margin-bottom: 20px;
+    }
+
+    form label {
+      display: block;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    form input[type="text"],
+    form input[type="file"],
+    form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #333;
+      color: #fff;
+      font-style: bold;
+    }
+
+    form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #45a049;
+    }
+
+    .id-card-container {
+      
+      min-width: 450px; /* Adjust as needed */
+      padding: 10px;
+      min-height:400px;
+      
+    }
+
+    .id-card {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .id-card img.logo {
+      
+      width:500px;
+      min-height: 100px;
+      
+    }
+
+    .id-card .content {
+      display: flex;
+      flex-wrap: wrap; /* Ensure content wraps on smaller screens */
+      padding-bottom: 80px;
+    }
+
+    .id-card .content .left-content {
+      flex: 1;
+    }
+
+    .id-card .content .right-content {
+      flex: 1;
+      display: flex;
+      justify-content: center; /* Center the content horizontally */
+      align-items: center; /* Center the content vertically */
+      text-align: center; /* Align content to the center */
+    }
+
+    .id-card .content .right-content img {
+      max-width: 100%;
+      max-height: 200px;
+    }
+
+    .id-card p {
+      margin: 5px 0;
+    }
+
+    .id-card button {
+      width: auto;
+      padding: 8px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-bottom: 10px;
+    }
+
+    .id-card button:hover {
+      background-color: #45a049;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .alert-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 9999;
+      opacity: 85%;
+    }
+
+    .alert-box {
+      width: 500px;
+      height: auto;
+      padding: 35px;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: justify;
+    }
+
+    .alert-box button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      float: right;
+    }
+
+    .alert-box button:hover {
+      background-color: #45a049;
+    }
+
+    .alert-box h2 {
+      color: red;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    .alert-box ol {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    /* Media query for responsiveness */
+    @media screen and (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      form {
+        width: 100%;
+      }
+
+      .id-card-container {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .id-card {
+        padding: 10px;
+      }
+
+      .id-card .content {
+        flex-direction: column;
+      }
+
+      .id-card .content .right-content {
+        order: -1;
+      }
+
+      .id-card button {
+        width: 100%;
+        left: 0;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="video-container">
+    <video autoplay loop muted>
+      <source src="src/lines_-_4760 (1080p).mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="container">
+    <form id="idCardForm">
+      <h3>Registration Form</h3>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name">
+      <div class="error-message" id="nameError"></div>
+      <label for="school">School Name:</label>
+      <input type="text" id="school" name="school">
+      <div class="error-message" id="schoolError"></div>
+      <label for="standard">Standard:</label>
+      <select id="standard" name="standard">
+        <option value="">Select Standard</option>
+        <option value="1">6th</option>
+        <option value="2">7th</option>
+        <option value="3">8th</option>
+        <option value="4">9th</option>
+        <option value="5">10th</option>
+        <option value="6">11th</option>
+        <option value="7">12th</option>
+      </select>
+      <div class="error-message" id="standardError"></div>
+      <label for="district">District:</label>
+      <select id="district" name="district">
+        <option value="">Select District</option>
+        <option value="Ariyalur">Ariyalur</option>
+        <option value="Chengalpattu">Chengalpattu</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Coimbatore">Coimbatore</option>
+        <option value="Cuddalore">Cuddalore</option>
+        <option value="Dharmapuri">Dharmapuri</option>
+        <option value="Dindigul">Dindigul</option>
+        <option value="Erode">Erode</option>
+        <option value="Kallakurichi">Kallakurichi</option>
+        <option value="Kanchipuram">Kanchipuram</option>
+        <option value="Kanyakumari">Kanyakumari</option>
+        <option value="Karur">Karur</option>
+        <option value="Krishnagiri">Krishnagiri</option>
+        <option value="Madurai">Madurai</option>
+        <option value="Nagapattinam">Nagapattinam</option>
+        <option value="Namakkal">Namakkal</option>
+        <option value="Nilgiris">Nilgiris</option>
+        <option value="Perambalur">Perambalur</option>
+        <option value="Pudukkottai">Pudukkottai</option>
+        <option value="Ramanathapuram">Ramanathapuram</option>
+        <option value="Ranipet">Ranipet</option>
+        <option value="Salem">Salem</option>
+        <option value="Sivaganga">Sivaganga</option>
+        <option value="Tenkasi">Tenkasi</option>
+        <option value="Thanjavur">Thanjavur</option>
+        <option value="Theni">Theni</option>
+        <option value="Thoothukudi">Thoothukudi</option>
+        <option value="Tiruchirappalli">Tiruchirappalli</option>
+        <option value="Tirunelveli">Tirunelveli</option>
+        <option value="Tirupathur">Tirupathur</option>
+        <option value="Tiruppur">Tiruppur</option>
+        <option value="Tiruvallur">Tiruvallur</option>
+        <option value="Tiruvannamalai">Tiruvannamalai</option>
+        <option value="Tiruvarur">Tiruvarur</option>
+        <option value="Vellore">Vellore</option>
+        <option value="Viluppuram">Viluppuram</option>
+        <option value="Virudhunagar">Virudhunagar</option>
+        <!-- Add more options as needed -->
+      </select>
+      <div class="error-message" id="districtError"></div>
+      <label for="eventName">Non-Technical Registration(Optional):</label>
+      <select id="eventName" name="eventName">
+        <option value="">Select Event</option>
+        <option value="event1">Science Painting</option>
+        <option value="event2">Science & Maths Quiz</option>
+        <option value="event3">Science with Fun</option>
+      </select>
+      <div class="error-message" id="eventNameError"></div>
+
+      <label for="eventName2">Technical Registration(Optional):</label>
+      <select id="eventName2" name="eventName2">
+        <option value="">Select Event</option>
+        <option value="event1">Popular Science Talks</option>
+        <option value="event2">Project Expo</option>
+        <option value="event3">Waste to Best</option>
+        <option value="event3">Mission Life</option>
+        <option value="event3">Startup Ideas</option>
+      </select>
+      <div class="error-message" id="eventNameError2"></div>
+
+      <label for="eventName3">WorkShop(Optional):</label>
+      <select id="eventName3" name="eventName3">
+        <option value="">Select Event</option>
+        <option value="Artificial intelligence (AI) and Machine learning (ML)">Artificial intelligence (AI) and Machine learning (ML)</option>
+        <option value="Dorne">Dorne</option>
+        <option value="Robotices">Robotices</option>
+        <option value="Internet of Things (Iot)">Internet of Things (Iot)</option>
+        <option value="Mobile App">Mobile App</option>
+        <option value="3D printing">3D printing</option>
+      </select>
+      <div class="error-message" id="eventNameError3"></div>
+
+      <label for="projectTitle">Project Title (optional):</label>
+      <input type="text" id="projectTitle" name="projectTitle">
+      <label for="phone">Phone Number :</label>
+      <input type="text" id="phone" name="phone">
+      <div class="error-message" id="phoneError"></div>
+      <label for="profilePhoto">Profile Photo:</label>
+      <input type="file" id="profilePhoto" name="profilePhoto">
+      <div class="error-message" id="profilePhotoError"></div>
+      <button type="button" id="addButton">Add ID Card</button>
+    </form>
+    <div class="id-card-container" id="idCardContainer">
+      <!-- ID cards will be displayed here -->
+    </div>
+  </div>
+
+  <script>
+    // Function to display popup message with instructions after 1 second delay when the page loads
+    window.onload = function () {
+      setTimeout(function() {
+        var alertContainer = document.createElement('div');
+        alertContainer.classList.add('alert-container');
+
+        var alertBox = document.createElement('div');
+        alertBox.classList.add('alert-box');
+
+        var instructionsHTML = "<h2>General Instructions</h2>";
+        instructionsHTML += "<ol>";
+        instructionsHTML += "<li>Participants should only register for one technical event, one non-technical event, and one workshop.</li>";
+        instructionsHTML += "<li>After hitting the registration button, a soft copy of your ID will be shown.</li>";
+        instructionsHTML += "</ol>";
+
+        alertBox.innerHTML = instructionsHTML;
+
+        var okButton = document.createElement('button');
+        okButton.textContent = "OK";
+        okButton.onclick = function () {
+          alertContainer.style.display = 'none';
+        };
+
+        alertBox.appendChild(okButton);
+        alertContainer.appendChild(alertBox);
+        document.body.appendChild(alertContainer);
+      }, 1000); // 1000 milliseconds = 1 second
+    };
+
+    // Your existing JavaScript code
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("addButton").addEventListener("click", function () {
+        // Reset error messages
+        document.querySelectorAll('.error-message').forEach(function (el) {
+          el.textContent = '';
+        });
+
+        // Fetching input field values
+        var name = document.getElementById("name").value;
+        var school = document.getElementById("school").value;
+        var standard = document.getElementById("standard").value;
+        var district = document.getElementById("district").value;
+        var eventName = document.getElementById("eventName").value;
+        var eventName2 = document.getElementById("eventName2").value;
+        var eventName3 = document.getElementById("eventName3").value;
+        var phone = document.getElementById("phone").value;
+        var profilePhoto = document.getElementById("profilePhoto").files[0];
+
+        var isError = false;
+
+        // Checking if any of the fields are empty
+        if (name === "") {
+          document.getElementById("nameError").textContent = "Please enter your name.";
+          isError = true;
+        }
+        if (school === "") {
+          document.getElementById("schoolError").textContent = "Please enter your school name.";
+          isError = true;
+        }
+        if (standard === "") {
+          document.getElementById("standardError").textContent = "Please select a standard.";
+          isError = true;
+        }
+        if (district === "") {
+          document.getElementById("districtError").textContent = "Please select a district.";
+          isError = true;
+        }
+        if (phone === "") {
+          document.getElementById("phoneError").textContent = "Please enter your phone number.";
+          isError = true;
+        }
+        if (!profilePhoto) {
+          document.getElementById("profilePhotoError").textContent = "Please upload a profile photo.";
+          isError = true;
+        }
+
+        if (isError) {
+          return;
+        }
+
+        var id = Math.floor(Math.random() * 1000000);
+
+        var idCardHTML = "<div class='id-card'>";
+        idCardHTML += "<img src='src/logo1.png' alt='Logo' class='logo'>";
+        idCardHTML += "<div class='content'>";
+        idCardHTML += "<div class='left-content'>";
+        idCardHTML += "<p>ID: " + id + "</p>";
+        idCardHTML += "<p><b>Name:</b> " + name + "</p>";
+        idCardHTML += "<p><b>School:</b> " + school + "</p>";
+        idCardHTML += "<p><b>Standard:</b> " + standard + "</p>";
+        idCardHTML += "<p><b>District:</b> " + district + "</p>";
+        idCardHTML += "<p><b>Event Participate:</b> " + eventName + "</p>";
+        idCardHTML += "<p><b>Event Participate (Optional):</b> " + eventName2 + "</p>";
+        idCardHTML += "<p><b>Event Participate (Optional):</b> " + eventName3 + "</p>";
+        idCardHTML += "<p><b>Phone Number:</b> " + phone + "</p>";
+        idCardHTML += "</div>";
+        idCardHTML += "<div class='right-content'>";
+        idCardHTML += "<img src='" + URL.createObjectURL(profilePhoto) + "' alt='Uploaded Photo'>";
+        idCardHTML += "</div>";
+        idCardHTML += "<button onclick='downloadPDF(this)'>Download</button>"; // Added download button
+        idCardHTML += "</div>";
+
+        var container = document.getElementById("idCardContainer");
+        if (container) {
+          container.insertAdjacentHTML('beforeend', idCardHTML);
+        }
+
+        document.getElementById("idCardForm").reset();
+      });
+    });
+
+    // Function to download the ID card as PDF
+    function downloadPDF(button) {
+      var idCard = button.parentElement;
+      var idCardContainer = idCard.parentElement;
+      var idCardHTML = idCard.outerHTML;
+
+      // Create a Blob containing the HTML content of the ID card
+      var blob = new Blob([idCardHTML], { type: 'application/pdf' });
+
+      // Create a temporary anchor element
+      var tempLink = document.createElement('a');
+      tempLink.href = URL.createObjectURL(blob);
+      tempLink.download = 'id_card.pdf'; // Set the filename for the downloaded PDF
+
+      // Trigger a click event on the anchor element to initiate the download
+      tempLink.click();
+    }
+  </script>
+</body>
+
+</html>
